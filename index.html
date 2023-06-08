@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
+    <title>Lista de Tareas Pendientes</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/0f1bbf4643.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-
+    <header>
+        <h1>Lista de Tareas Pendientes</h1>
+    </header>
+    <div id="content">
+        <div id="sidebar">
+            <div class="tarea-lista">
+                <h3><i class="far fa-folder-open"></i> Mis Tareas</h3>                
+                <div class="tarea-input">
+                    <input type="text" id="tarea" placeholder="Agrega una nueva tarea"><button id="enter">Enter</button>
+                </div>                    
+            </div>
+        </div> 
+        <div class="lista-de-tareas">
+            <button class="pendiente-nuevo"></button>
+        </div>       
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
