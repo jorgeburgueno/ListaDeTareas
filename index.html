@@ -26,7 +26,36 @@
             <div class="listado"></div>
         </div>         
         <div class="lista-de-tareas">
-            <button class="pendiente-nuevo"></button>
+            <div class="pendiente-lista">
+                <h2> + </h2>
+                <div class="pendiente-input">
+                    <form id="pendientes-form">
+                        <div class="form-control">
+                            <label for="nombre">Pendiente por hacer</label>
+                            <input type="text" id="nombre" name="nombre">
+                        </div>
+                        <div class="form-control">
+                            <label for="fecha">Pendiente por hacer</label>
+                            <input type="date" id="fecha" name="fecha">
+                        </div>
+                        <div class="form-control">
+                            <label for="detalles">Detalles</label>
+                            <input type="text" name="detalles" id="detalles">
+                        </div> 
+                        <div class="form-control">
+                            <label for="prioridad">Prioridad</label>
+                            <select name="prioridad" id="prioridad">
+                                <option value="baja">Baja</option>
+                                <option value="media">Media</option>
+                                <option value="alta">Alta</option>
+                            </select>
+                        </div>               
+                                       
+                        <button class="submitBtn" type="submit">Agregar</button>
+                    </form>
+                </div>              
+            </div>
+            <div class="lista-de-pendientes"></div> 
         </div>       
     </div>
     <script src="script.js"></script>

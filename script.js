@@ -1,7 +1,5 @@
 const tareasArray = localStorage.getItem("tareas") ? JSON.parse(localStorage.getItem("tareas")) : [] 
 
-console.log(tareasArray)
-
 document.querySelector("#enter").addEventListener("click", () => {
     const item = document.querySelector("#tarea")
     crearItem(item)
@@ -91,14 +89,25 @@ function crearItem(item){
     location.reload()
 }
 
+//Forms
+
+const form = document.getElementById('pendientes-form');
+form.addEventListener('submit', callbackFunction);
+
+function callbackFunction(event, pendiente) {
+    event.preventDefault();
+    const myFormData = new FormData(event.target);
+
+    const formDataObj = Object.fromEntries(myFormData.entries());
+    
+    localStorage.setItem("pendiente",JSON.stringify(pendiente))
+    console.log(formDataObj);
+}
+
 
 window.onload = function (){
     display()
 }
-
-
-
-
-
+ 
 
 
