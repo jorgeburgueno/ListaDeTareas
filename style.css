@@ -117,6 +117,18 @@
     display: none;
   }
   
+  .btn-delete {    
+    right: 32px;
+    top: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  }
+  .btn-delete:hover {
+    opacity: 1;
+  }  
+
+
   @media(max-width: 768px) {
     .app {
       width: 95%;
