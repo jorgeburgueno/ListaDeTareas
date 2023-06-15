@@ -152,7 +152,7 @@ class UI {
 class Store {
     static getPendiente(){
       let pendientes;
-      if(localStorage.getItem("pendiente") ===null){
+      if(localStorage.getItem("pendientes") === null){
         pendientes = []
       } else {
         pendientes = JSON.parse(localStorage.getItem("pendientes"));
@@ -205,7 +205,14 @@ document.querySelector("#pendientes-form").addEventListener("submit", (e) =>{
 
 //Borra pendiente
 document.querySelector(".lista-de-pendientes").addEventListener("click", (e) =>{
+   
+   //borra de UI
     UI.borrarPendiente(e.target);
+   
+   //borra de storage
+   Store.borraPendiente(e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent); 
+
+   //alerta de borrado 
     UI.showAlert("Pendiente borrado")
 })
 
