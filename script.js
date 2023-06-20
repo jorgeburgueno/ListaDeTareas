@@ -218,7 +218,7 @@ document.querySelector(".lista-de-pendientes").addEventListener("click", (e) =>{
     UI.showAlert("Pendiente borrado")
 })
 
-let merge = (proyectosArray, Pendiente) => ({...proyectosArray, ...Pendiente});
+
 
 document.addEventListener("DOMContentLoaded", UI.displayPendiente, display())
 
