@@ -1,16 +1,16 @@
-const tareasArray = localStorage.getItem("tareas") ? JSON.parse(localStorage.getItem("tareas")) : [] 
+const proyectosArray = localStorage.getItem("proyectos") ? JSON.parse(localStorage.getItem("proyectos")) : [] 
 
 document.querySelector("#enter").addEventListener("click", () => {
-    const item = document.querySelector("#tarea")
+    const item = document.querySelector("#titulo")
     crearItem(item)
 })
 
 function display(){
-    let tareas = ""
-    for (let i = 0; i < tareasArray.length; i++){
-        tareas += `<div class="item">
+    let proyectos = ""
+    for (let i = 0; i < proyectosArray.length; i++){
+        proyectos += `<div class="item">
         <div class= "input">
-            <textarea disabled>${tareasArray[i]}</textarea>
+            <textarea disabled>${proyectosArray[i]}</textarea>
             <div class="edit">
                 <i class="fa-solid fa-trash borrarBtn"></i>
                 <i class="fa-solid fa-pen-to-square editBtn"></i>
@@ -22,7 +22,7 @@ function display(){
         </div>
     </div>`
     }
-    document.querySelector(".listado").innerHTML = tareas
+    document.querySelector(".lista-de-proyectos").innerHTML = proyectos
     activarDelete()
     activarEdit()
     activarSave()
@@ -37,8 +37,8 @@ function activarDelete(){
 }
 
 function borrarItem(i){
-    tareasArray.splice(i, 1)
-    localStorage.setItem("tareas", JSON.stringify(tareasArray))
+    proyectosArray.splice(i, 1)
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
     location.reload()
 }
 
@@ -66,8 +66,8 @@ function activarSave(){
 }
 
 function updateItem(text, i){
-    tareasArray[i] = text
-    localStorage.setItem("tareas", JSON.stringify(tareasArray))
+    proyectosArray[i] = text
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
     location.reload()    
 }
 function activarCancel(){
@@ -84,8 +84,8 @@ function activarCancel(){
 
 
 function crearItem(item){
-    tareasArray.push(item.value)
-    localStorage.setItem("tareas", JSON.stringify(tareasArray))
+    proyectosArray.push(item.value)
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
     location.reload()
 }
 
@@ -146,6 +146,7 @@ class UI {
         document.querySelector("#detalles").value='';
         document.querySelector("#prioridad").value='';
     }
+    
 }
 
 //Guardar un pendiente
@@ -177,6 +178,7 @@ class Store {
       });
       localStorage.setItem("pendientes", JSON.stringify(pendientes));
     }
+    
 }
 
 //Anadir un pendiente
@@ -216,10 +218,7 @@ document.querySelector(".lista-de-pendientes").addEventListener("click", (e) =>{
     UI.showAlert("Pendiente borrado")
 })
 
-
+let merge = (proyectosArray, Pendiente) => ({...proyectosArray, ...Pendiente});
 
 document.addEventListener("DOMContentLoaded", UI.displayPendiente, display())
-
- 
-
 

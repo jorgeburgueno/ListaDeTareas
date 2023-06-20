@@ -17,13 +17,17 @@
     </header>
     <div id="content">
         <div id="sidebar">
-            <div class="tarea-lista">
+            <div id="proyectos">
                 <h3><i class="far fa-folder-open"></i> Mis Tareas</h3>                
-                <div class="tarea-input">
-                    <input type="text" id="tarea" placeholder="Agrega una nueva tarea"><button id="enter">Enter</button>
-                </div>                    
+                <form id="proyecto-form">
+                    <div class="form-control">
+                      <label for="titulo">proyecto</label>
+                      <input type="text" id="titulo" name="titulo">
+                    </div>
+                    <button id="enter">Enter</button>
+                </form>                    
             </div>
-            <div class="listado"></div>
+            <div class="lista-de-proyectos"></div>
         </div>         
         <div class="lista-de-tareas">
             <div class="pendiente-lista">
