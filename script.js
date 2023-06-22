@@ -5,6 +5,24 @@ document.querySelector("#enter").addEventListener("click", () => {
     crearItem(item)
 })
 
+
+function activar(){
+    const tabs = document.querySelectorAll(".item")
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].addEventListener("click", function() {
+          var current = document.getElementsByClassName("active");
+      
+          // If there's no active class
+          if (current.length > 0) {
+            current[0].className = current[0].className.replace(" active", "");
+          }
+      
+          // Add the active class to the current/clicked button
+          this.className += " active";
+        });
+      }
+
+}
 function display(){
     let proyectos = ""
     for (let i = 0; i < proyectosArray.length; i++){
@@ -220,5 +238,5 @@ document.querySelector(".lista-de-pendientes").addEventListener("click", (e) =>{
 
 
 
-document.addEventListener("DOMContentLoaded", UI.displayPendiente, display())
+document.addEventListener("DOMContentLoaded", UI.displayPendiente, display(), activar())
 
