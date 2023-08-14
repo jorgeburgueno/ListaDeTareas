@@ -5,68 +5,41 @@ const proyectoTitulo = document.querySelector(".titulo-proyecto");
 
 let projectoId = 0;
 
-class Proyecto {
-    constructor(titulo){
-        this.titulo = titulo;
-        this.pendientesArray = [];
-        this.id= projectoId++;
-    }
-
-    addTodo(pendiente) {
-        this.pendienteLista.push(pendiente);
-    }
-
-    removeTodo(index){
-        this.pendiente.splice(index, 1);
-    }
-}
-
-function crearProyecto(titulo){
-    const proyecto = new Proyecto(titulo);
-    proyectosArray.push(proyecto)
-}
-
-function removeProject(projectoId){
-    proyectosArray = proyectosArray.filter((proyecto) => projecto.id !== projectoId);
-}
-
-document.querySelector("#enter").addEventListener("click", (e) => {
-    e.preventDefault()
-    const titulo = document.querySelector("#titulo").value
-    crearProyecto(titulo);
-    renderProyectos()
+document.querySelector("#enter").addEventListener("click", () => {
+    const item = document.querySelector("#titulo")
+    crearItem(item)
 })
-
 
 
 function activar(){
     const tabs = document.querySelectorAll(".item")
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].addEventListener("click", function() {
-          var current = document.getElementsByClassName("active");         
-          
+          var current = document.getElementsByClassName("active");
+      
+          // If there's no active class
           if (current.length > 0) {
             current[0].className = current[0].className.replace(" active", "");
-          }      
-          
+          }
+      
+          // Add the active class to the current/clicked button
           this.className += " active";
         });
       }
-      
+
 }
 
-function renderProyectos() {
-    contenedorProyectos.innerHTML = "";
+function displayName(){
+    let name= document.querySelector(".active");
+    console.log(name);  
+}
 
-    proyectosArray.forEach((proyecto) => {
-        const elementoProyecto = document.createElement("div");
-        elementoProyecto.classList.add("item");
-        elementoProyecto.dataset.projectId = proyecto.id;
-        
-        elementoProyecto.innerHTML = `
-        <div class="item" data-project-id="${proyecto.id}">
+function display(){
+    let proyectos = ""
+    for (let i = 0; i < proyectosArray.length; i++){
+        proyectos += `<div class="item" onclick="displayName()">
         <div class= "input">
-            <textarea disabled>${proyecto.titulo}</textarea>
+            <textarea disabled>${proyectosArray[i]}</textarea>
             <div class="edit">
                 <i class="fa-solid fa-trash borrarBtn"></i>
                 <i class="fa-solid fa-pen-to-square editBtn"></i>
@@ -76,12 +49,75 @@ function renderProyectos() {
             <button class="saveBtn">Guardar</button>
             <button class="cancelBtn">Cancelar</button>
         </div>
-        </div>
-        `
-        contenedorProyectos.appendChild(elementoProyecto);
+    </div>`
+    }
+    
+    document.querySelector(".lista-de-proyectos").innerHTML = proyectos
+    activarDelete()
+    activarEdit()
+    activarSave()
+    activarCancel()
+}
+
+function activarDelete(){
+    let borrarBtn = document.querySelectorAll(".borrarBtn")
+    borrarBtn.forEach((db,i) => {
+        db.addEventListener("click", () => { borrarItem(i)})
     })
 }
 
+function borrarItem(i){
+    proyectosArray.splice(i, 1)
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
+    location.reload()
+}
+
+//Editar Tarea
+function activarEdit(){
+    const editBtn = document.querySelectorAll(".editBtn")
+    const update = document.querySelectorAll(".update")
+    const input = document.querySelectorAll(".input textarea")
+    editBtn.forEach((eb, i) => {
+        eb.addEventListener("click", () => {
+          update[i].style.display = "block"
+          input[i].disabled = false
+        })       
+    })
+}
+
+function activarSave(){
+    const saveBtn = document.querySelectorAll(".saveBtn")
+    const input = document.querySelectorAll(".input textarea")
+    saveBtn.forEach((sb, i) => {
+        sb.addEventListener("click", () => {
+           updateItem(input[i].value, i) 
+        })
+    })
+}
+
+function updateItem(text, i){
+    proyectosArray[i] = text
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
+    location.reload()    
+}
+function activarCancel(){
+    const cancelBtn = document.querySelectorAll(".cancelBtn")
+    const update = document.querySelectorAll(".update")
+    const input = document.querySelectorAll(".input textarea")
+    cancelBtn.forEach((cb, i) => {
+        cb.addEventListener("click", () => {
+            update[i].style.display = "none"
+            input[i].disabled = true
+        })
+    })
+}
+
+
+function crearItem(item){
+    proyectosArray.push(item.value)
+    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
+    location.reload()
+}
 
 //Forms
 
@@ -94,39 +130,6 @@ class Pendiente {
     }
 }
 
-function addPendienteAProyecto(projectoId, nombre, fecha, detalles, prioridad){
-    const proyecto = proyectosArray.find((proyecto) => proyecto.id === projectoId);
-    if (proyecto) {
-        const pendiente = new Pendiente(nombre, fecha, detalles, prioridad);
-        proyecto.addTodo(pendiente)
-    }
-}
-
-function removePendiente(projectoId, pendienteIndex) {
-    const proyecto = proyectosArray.find ((proyecto) => proyecto.id === projectoId);
-    if (proyecto) {
-        proyecto.removePendiente(pendienteIndex);
-    }
-}
-
-function pendienteForm(projectoId){
-    const form = document.querySelector("#pendientes-form");
-    const nombre = document.querySelector("#nombre");
-    const fecha = document.querySelector("#fecha");
-    const detalles = document.querySelector("#detalles");
-    const prioridad = document.querySelector("#prioridad");
-
-    addPendienteAProyecto(projectoId, nombre.value, fecha.value, detalles.value, prioridad.value);
-}
-
-function renderPendientesdeProyecto(projectId){
-    const proyecto = proyectosArray.find((proyecto) => proyecto.id === projectId);
-    if (proyecto) {
-        proyectoTitulo.textContent = proyecto.titulo;
-        contenedorProyectos.innerHTML="";
-        displayPendiente(projectId)
-    }
-}
 class UI {
     static displayPendiente(){        
       const pendientes = Store.getPendiente();
@@ -212,7 +215,7 @@ class Store {
 document.querySelector("#pendientes-form").addEventListener("submit", (e) =>{
     
     e.preventDefault();
-    const projectId = parseInt(e.target.dataset.projectId);
+
     const nombre = document.querySelector("#nombre").value;
     const fecha = document.querySelector("#fecha").value;
     const detalles = document.querySelector("#detalles").value;
@@ -222,7 +225,7 @@ document.querySelector("#pendientes-form").addEventListener("submit", (e) =>{
       UI.showAlert("Porfavor llena todos los campos")
     } else {
         const pendiente = new Pendiente(nombre, fecha, detalles, prioridad);
-        pendienteForm(projectoId)
+    
         UI.addPendienteALista(pendiente);
 
         Store.addPendiente(pendiente);
@@ -247,5 +250,4 @@ document.querySelector(".lista-de-pendientes").addEventListener("click", (e) =>{
 
 
 
-document.addEventListener("DOMContentLoaded", UI.displayPendiente, activar())
-
+document.addEventListener("DOMContentLoaded", UI.displayPendiente, display(), activar())
