@@ -2,7 +2,6 @@ const proyectosArray = localStorage.getItem("proyectos") ? JSON.parse(localStora
 const contenedorProyectos = document.querySelector(".lista-de-proyectos");
 const proyectoTitulo = document.querySelector(".titulo-proyecto");
 
-
 let projectoId = 0;
 
 document.querySelector("#enter").addEventListener("click", () => {
@@ -13,10 +12,11 @@ document.querySelector("#enter").addEventListener("click", () => {
 
 function activar(){
     const tabs = document.querySelectorAll(".item")
-    for (var i = 0; i < tabs.length; i++) {
+    for (let i = 0; i < tabs.length; i++) {
         tabs[i].addEventListener("click", function() {
           var current = document.getElementsByClassName("active");
-      
+        
+
           // If there's no active class
           if (current.length > 0) {
             current[0].className = current[0].className.replace(" active", "");
@@ -29,17 +29,13 @@ function activar(){
 
 }
 
-function displayName(){
-    let name= document.querySelector(".active");
-    console.log(name);  
-}
 
 function display(){
     let proyectos = ""
     for (let i = 0; i < proyectosArray.length; i++){
-        proyectos += `<div class="item" onclick="displayName()">
+        proyectos += `<div class="item" onclick="activeProject(${proyectosArray[i].projectNumber})">
         <div class= "input">
-            <textarea disabled>${proyectosArray[i]}</textarea>
+            <textarea disabled>${proyectosArray[i].name}</textarea>
             <div class="edit">
                 <i class="fa-solid fa-trash borrarBtn"></i>
                 <i class="fa-solid fa-pen-to-square editBtn"></i>
@@ -109,14 +105,33 @@ function activarCancel(){
             update[i].style.display = "none"
             input[i].disabled = true
         })
-    })
+    })  
+}
+
+function activeProject(projectNumber){
+    localStorage.setItem("activeProject", projectNumber)
 }
 
 
 function crearItem(item){
-    proyectosArray.push(item.value)
-    localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
-    location.reload()
+    let exists = false
+    const name = item.value
+    for (let index = 0; index < proyectosArray.length; index++) {
+        const element = proyectosArray[index];
+        if(element.name == name){
+            exists = true
+        }
+    }
+    if(exists === true) {
+        alert("Nombre repetido, vales verga...")
+    }
+    else{
+        const project = {"name": item.value, "projectNumber":Math.floor((Math.random() * 10000000) + 1)}
+        proyectosArray.push(project)
+        localStorage.setItem("proyectos", JSON.stringify(proyectosArray))
+        location.reload()
+    }
+
 }
 
 //Forms
@@ -127,6 +142,7 @@ class Pendiente {
         this.fecha= fecha;
         this.detalles= detalles;
         this.prioridad=prioridad;
+        this.projectID = localStorage.getItem("activeProject")
     }
 }
 
@@ -225,7 +241,7 @@ document.querySelector("#pendientes-form").addEventListener("submit", (e) =>{
       UI.showAlert("Porfavor llena todos los campos")
     } else {
         const pendiente = new Pendiente(nombre, fecha, detalles, prioridad);
-    
+ 
         UI.addPendienteALista(pendiente);
 
         Store.addPendiente(pendiente);
